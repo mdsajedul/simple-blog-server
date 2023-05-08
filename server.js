@@ -1,11 +1,20 @@
-const express = require('express');
 const http = require('http')
 const app = require('./app/app')
+const mongoose = require('mongoose')
+const config = require('./config/config')
 
 const server = http.createServer(app)
 
-const PORT = process.env.PORT || 8000
+mongoose.connect(config.dbURI,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(()=>{
+    console.log('Connected to Mongodb');
+}).catch((error)=>{
+    console.log(error);
+})
 
-server.listen(PORT,()=>{
-    console.log(`Server is running on PORT ${PORT}`);
+
+server.listen(config.PORT,()=>{
+    console.log(`Server is running on PORT ${config.PORT}`);
 })

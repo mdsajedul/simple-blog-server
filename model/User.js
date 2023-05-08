@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const {JWTSecret} = require('../config/config')
 
 const userSchema = mongoose.Schema({
     username:{
@@ -36,8 +37,7 @@ const userSchema = mongoose.Schema({
 
 userSchema.pre('save', async function(next){
     const user = this;
-
-    if(!user.isModified('passowrd')){
+    if(!user.isModified('password')){
         next();
     }
 
@@ -50,7 +50,7 @@ userSchema.pre('save', async function(next){
 
 userSchema.methods.generateAuthToken = function(){
     const user = this;
-    const token = jwt.sign({_id:user._id,role:user.role},'secret');
+    const token = jwt.sign({_id:user._id,role:user.role},JWTSecret);
     return token
 }
 
