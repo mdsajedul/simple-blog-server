@@ -5,7 +5,8 @@ const express= require('express')
 const middleware = [
     morgan('dev'),
     cors(),
-    express.json()
+    express.json(),
+    
 ]
 
 module.exports = middleware
