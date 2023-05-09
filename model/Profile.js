@@ -29,14 +29,14 @@ const profileSchema = mongoose.Schema({
         type: String,
         trim: true
       },
-      location: {
+    location: {
         type: String,
         trim: true
       },
-      dateOfBirth: {
+    dateOfBirth:{
         type: Date
       },
-      social: {
+    social: {
         facebook: {
           type: String,
           trim: true

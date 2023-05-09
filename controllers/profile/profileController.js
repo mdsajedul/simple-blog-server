@@ -1,7 +1,7 @@
 const Profile = require('../../model/Profile')
 
 const createProfile = async (req,res)=>{
-    const {firstName,lastName, bio, profileImage } = req.body;
+    const {firstName,lastName, bio, profileImage,website,location,dateOfBirth,facebook,twitter,instagram,linkedin } = req.body;
     // console.log(userId);
     try {
         const newProfile = new Profile({
@@ -9,7 +9,16 @@ const createProfile = async (req,res)=>{
             firstName,
             lastName,
             bio,
-            profileImage
+            profileImage,
+            website,
+            location,
+            dateOfBirth,
+            social:{
+                facebook,
+                twitter,
+                instagram,
+                linkedin
+            }
         });
 
         await newProfile.save();
@@ -25,11 +34,41 @@ const createProfile = async (req,res)=>{
     }
 }
 
-// const updateUserProfile = async (req,res)=>{
-//     const userId = req.userId;
-//     const {}
-// }
+const updateProfile = async (req,res)=>{
+    const {firstName, lastName, bio, profileImage, website, location, dateOfBirth, facebook, twitter, instagram, linkedin} = req.body;
+    try {
+        const updatedProfile = await Profile.findOneAndUpdate({userId:req.userId},{
+            $set: {
+                firstName,
+                lastName,
+                bio,
+                profileImage,
+                website,
+                location,
+                dateOfBirth,
+                social:{
+                    facebook,
+                    twitter,
+                    instagram,
+                    linkedin
+                }
+            }
+        },{new:true}
+        );
+        res.status(200).json({
+            success:true,
+            message:'Profile updated successfully',
+            profile: updatedProfile
+        })
+    } 
+    catch (error) {
+        res.status(400).json({
+            success:false,
+            error:error.message
+        })
+    }
+}
 
 module.exports = {
-    createProfile
+    createProfile, updateProfile
 }
