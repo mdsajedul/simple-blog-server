@@ -1,4 +1,5 @@
-const Profile = require('../../model/Profile')
+const Profile = require('../../model/Profile');
+const User = require('../../model/User');
 
 const createProfile = async (req,res)=>{
     const {firstName,lastName, bio, profileImage,website,location,dateOfBirth,facebook,twitter,instagram,linkedin } = req.body;
@@ -22,6 +23,9 @@ const createProfile = async (req,res)=>{
         });
 
         await newProfile.save();
+        // const user = await User.findById(req.userId)
+        // user.profile = newProfile.id;
+        // await user.save()
 
         res.status(201).json({
             success: true,
